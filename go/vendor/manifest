@@ -1,0 +1,13 @@
+{
+	"version": 0,
+	"dependencies": [
+		{
+			"importpath": "github.com/strava/go.strava",
+			"repository": "https://github.com/strava/go.strava",
+			"vcs": "git",
+			"revision": "f5c7cee1038b80d25e3d262208d295c10ca2ac4b",
+			"branch": "master",
+			"notests": true
+		}
+	]
+}
