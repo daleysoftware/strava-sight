@@ -1,10 +1,15 @@
 package main
 
 import (
-	//"github.com/strava/go.strava"
-	"fmt"
+//"github.com/strava/go.strava"
 )
 
 func main() {
-	fmt.Println("Hello world")
+	db, err := DatabaseInit()
+	defer db.Close()
+
+	if err != nil {
+		panic(err.Error())
+	}
+
 }

@@ -2,6 +2,38 @@
 	"version": 0,
 	"dependencies": [
 		{
+			"importpath": "github.com/go-sql-driver/mysql",
+			"repository": "https://github.com/go-sql-driver/mysql",
+			"vcs": "git",
+			"revision": "2e00b5cd70399450106cec6431c2e2ce3cae5034",
+			"branch": "master",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/jinzhu/gorm",
+			"repository": "https://github.com/jinzhu/gorm",
+			"vcs": "git",
+			"revision": "c730b30a7830a04a4a3d536edcb1f8c5f77d3482",
+			"branch": "master",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/jinzhu/inflection",
+			"repository": "https://github.com/jinzhu/inflection",
+			"vcs": "git",
+			"revision": "1c35d901db3da928c72a72d8458480cc9ade058f",
+			"branch": "master",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/lib/pq",
+			"repository": "https://github.com/lib/pq",
+			"vcs": "git",
+			"revision": "0477eb88c5ca4009cb281f13c90633375b6a9987",
+			"branch": "master",
+			"notests": true
+		},
+		{
 			"importpath": "github.com/strava/go.strava",
 			"repository": "https://github.com/strava/go.strava",
 			"vcs": "git",

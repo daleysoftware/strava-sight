@@ -1,5 +1,5 @@
 start:
-	go run main.go
+	go run *.go
 
 install:
 	go get -u github.com/FiloSottile/gvt

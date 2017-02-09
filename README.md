@@ -14,6 +14,13 @@ See <a href="./DESIGN.md">DESIGN.md</a>
 
 ### Backend
 
+### Create and configure your MySQL database
+
+    create database tristrava;
+    create user 'tristrava'@'%';
+    grant all privileges on tristrava.* to 'tristrava'@'%' with grant option;
+
+
 #### Run Go code
 
     cd go && make install && make start
