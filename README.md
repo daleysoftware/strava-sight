@@ -2,6 +2,10 @@
 
 Data visualizations and insights for triathletes using Strava.
 
+## Design
+
+See <a href="./DESIGN.md">DESIGN.md</a>
+
 ## Running the application
 
 ### Frontend
