@@ -24,7 +24,7 @@ class App extends React.Component{
     render(){
         return (
             <div className='app'>
-                <p>Hello world</p>
+                <p><a href="http://localhost:4000/v1/auth/init">Login with Strava</a></p>
             </div>
         )
     }

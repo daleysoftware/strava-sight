@@ -1,7 +1,10 @@
 package main
 
 import (
-//"github.com/strava/go.strava"
+	"fmt"
+	"os"
+	"strconv"
+	"strings"
 )
 
 func main() {
@@ -12,5 +15,13 @@ func main() {
 		panic(err.Error())
 	}
 
-	ApiInit()
+	clientId, err := strconv.Atoi(strings.TrimSpace(os.Getenv("STRAVA_CLIENT_ID")))
+	clientSecret := strings.TrimSpace(os.Getenv("STRAVA_CLIENT_SECRET"))
+
+	if err != nil || len(clientSecret) == 0 {
+		fmt.Println("Must export STRAVA_CLIENT_ID and STRAVA_CLIENT_SECRET")
+		os.Exit(1)
+	}
+
+	ApiInit(clientId, clientSecret)
 }
