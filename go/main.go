@@ -12,4 +12,5 @@ func main() {
 		panic(err.Error())
 	}
 
+	ApiInit()
 }
