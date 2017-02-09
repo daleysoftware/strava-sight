@@ -1,6 +1,11 @@
 {
   "name": "simple-realtime-chat",
   "dependencies": {
+    "events": "^1.1.1",
+    "flux": "^3.1.2",
+    "jquery": "^3.1.1",
+    "keymirror": "^0.1.1",
+    "lodash": "^4.17.4",
     "react": "^15.3.2",
     "react-dom": "^15.3.2"
   },

@@ -23,5 +23,5 @@ func main() {
 		os.Exit(1)
 	}
 
-	ApiInit(clientId, clientSecret)
+	ApiInit(db, clientId, clientSecret)
 }

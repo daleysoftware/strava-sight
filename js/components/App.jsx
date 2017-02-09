@@ -1,19 +1,19 @@
 let React = require('react');
 
-let Socket = require('../socket.js');
+let DocumentLoadedActionCreator = require('../actions/DocumentLoaded.js');
 
-class App extends React.Component{
-    constructor(props){
-        super(props);
-        this.state = {
-        };
-    }
+let LoginForm = require('./LoginForm.js');
 
-    componentDidMount(){
-        let ws = new WebSocket('ws://localhost:4000');
-        let socket = this.socket = new Socket(ws);
+//let Socket = require('../socket.js');
+
+let App = React.createClass({
+    componentDidMount() {
+        //let ws = new WebSocket('ws://localhost:4000');
+        //let socket = this.socket = new Socket(ws);
         //socket.on('message add', this.onMessageAdd.bind(this));
-    }
+
+        DocumentLoadedActionCreator.documentLoaded();
+    },
 
     /*onMessageAdd(message){
         let {messages} = this.state;
@@ -21,13 +21,13 @@ class App extends React.Component{
         this.setState({messages});
     }*/
 
-    render(){
+    render() {
         return (
             <div className='app'>
-                <p><a href="http://localhost:4000/v1/auth/init">Login with Strava</a></p>
+                <LoginForm />
             </div>
         )
     }
-}
+});
 
 module.exports = App;

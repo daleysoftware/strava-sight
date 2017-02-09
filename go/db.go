@@ -13,6 +13,7 @@ func DatabaseInit() (*gorm.DB, error) {
 	}
 
 	db.AutoMigrate(&User{})
+	db.AutoMigrate(&Session{})
 
 	return db, nil
 
