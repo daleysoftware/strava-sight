@@ -25,7 +25,7 @@ module.exports = {
         } else {
             $.ajax({
                 type: 'GET',
-                url: Constants.Endpoint + '/session',
+                url: Constants.RestEndpoint + '/session',
                 dataType: 'json',
                 success: function (data) {
                     let sessionId = data['sessionId'];
@@ -35,8 +35,6 @@ module.exports = {
                     });
                 }
              });
-
-
         }
     }
 };

@@ -1,4 +1,4 @@
-# TriStrava
+# Strava Sight
 
 Data visualizations and insights for triathletes using Strava.
 

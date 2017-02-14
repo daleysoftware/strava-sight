@@ -1,5 +1,6 @@
 let React = require('react');
 
+let Constants = require('../constants/Constants.js');
 let SessionStore = require('../stores/Session.js');
 
 let LoginForm = React.createClass({
@@ -24,7 +25,7 @@ let LoginForm = React.createClass({
     },
 
     render() {
-        let route = "http://localhost:4000/v1/auth/init?sessionId=" + this.state.sessionId;
+        let route = Constants.RestEndpoint + "/auth/init?sessionId=" + this.state.sessionId;
 
         if (this.state.sessionId !== null) {
             return (

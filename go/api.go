@@ -2,7 +2,7 @@ package main
 
 import (
 	"crypto/rand"
-	"encoding/base64"
+	"encoding/hex"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/itsjamie/gin-cors"
@@ -45,7 +45,13 @@ func ApiInit(db *gorm.DB, clientId int, clientSecret string) {
 		v1.GET("/auth/init", GetAuthInit)
 
 		v1.GET("/auth/response", func(c *gin.Context) {
-			authenticator.HandlerFunc(oAuthSuccess, oAuthFailure)(c.Writer, c.Request)
+			authenticator.HandlerFunc(
+				func(auth *strava.AuthorizationResponse, w http.ResponseWriter, r *http.Request) {
+					oAuthSuccess(db, c, auth)
+				},
+				func(err error, w http.ResponseWriter, r *http.Request) {
+					oAuthFailure(db, c, err)
+				})(c.Writer, c.Request)
 		})
 	}
 
@@ -56,11 +62,10 @@ func GetSession(db *gorm.DB, c *gin.Context) {
 	size := 32
 	randomBytes := make([]byte, size)
 	rand.Read(randomBytes)
-	randomString := base64.StdEncoding.EncodeToString(randomBytes)
+	randomString := hex.EncodeToString(randomBytes)
 
-	db.Create(&Session{SessionId: randomString})
-	c.JSON(200, gin.H{"sessionId": randomString})
-
+	db.Create(&Session{SessionId: randomString}) // TODO verify this is correct.
+	c.JSON(http.StatusOK, gin.H{"sessionId": randomString})
 }
 
 func GetSessionVerify(c *gin.Context) {
@@ -68,22 +73,30 @@ func GetSessionVerify(c *gin.Context) {
 }
 
 func GetAuthInit(c *gin.Context) {
+	sessionId := c.Query("sessionId")
+	if len(sessionId) == 0 {
+		c.String(http.StatusBadRequest, "Missing sessionId query string")
+	}
+
 	c.Redirect(http.StatusTemporaryRedirect,
 		"https://www.strava.com/api/v3/oauth/authorize?"+
 			"client_id="+strconv.Itoa(strava.ClientId)+
-			"state="+c.Request.Header.Get("Authorization")+ // TODO verify this grabs the session
-			"&response_type=code&redirect_uri="+
-			"http://localhost:4000/v1/auth/response"+ // TODO update for prod
-			"&scope=public&approval_prompt=force")
+			"&redirect_uri="+RestEndpoint+"/auth/response"+
+			"&response_type=code"+
+			"&state="+sessionId+
+			"&scope=public"+
+			"&approval_prompt=force")
 }
 
-func oAuthSuccess(auth *strava.AuthorizationResponse, w http.ResponseWriter, r *http.Request) {
+func oAuthSuccess(db *gorm.DB, c *gin.Context, auth *strava.AuthorizationResponse) {
 	fmt.Println(auth.AccessToken)
+	fmt.Println(auth.State)
 	fmt.Println(auth.Athlete.Id)
+
+	//db.Update(&Session{SessionId: })
 	// TODO
 }
 
-func oAuthFailure(err error, w http.ResponseWriter, r *http.Request) {
-	fmt.Println(err)
+func oAuthFailure(db *gorm.DB, c *gin.Context, err error) {
 	// TODO
 }

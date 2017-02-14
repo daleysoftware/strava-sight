@@ -2,10 +2,10 @@ var keyMirror = require('keymirror');
 
 module.exports = {
     
-    Endpoint: 'http://localhost:4000/v1',
+    RestEndpoint: 'http://localhost:4000/v1',
+    WebsocketEndpoint: 'ws://localhost:5000',
 
     ActionTypes: Object.freeze(keyMirror({
         SESSION_LOADED: null
     }))
 };
-
