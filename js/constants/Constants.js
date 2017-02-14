@@ -6,6 +6,7 @@ module.exports = {
     WebsocketEndpoint: 'ws://localhost:5000',
 
     ActionTypes: Object.freeze(keyMirror({
-        SESSION_LOADED: null
+        SESSION_LOADED: null,
+        SESSION_AUTHENTICATED: null
     }))
 };

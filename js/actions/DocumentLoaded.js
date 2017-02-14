@@ -1,6 +1,8 @@
 let _ = require('lodash');
 let $ = require('jquery');
 
+let SessionLoadedActionCreator = require('./SessionLoaded.js');
+
 let Dispatcher = require('../dispatcher/Dispatcher.js');
 let Constants = require('../constants/Constants.js');
 
@@ -18,10 +20,13 @@ module.exports = {
         let sessionId = getCookie('sessionId');
 
         if (!_.isEmpty(sessionId)) {
+            console.log("Using old session ID " + sessionId);
+
             Dispatcher.dispatch({
                 type: ActionTypes.SESSION_LOADED,
                 sessionId: sessionId
             });
+            SessionLoadedActionCreator.sessionLoaded(sessionId);
         } else {
             $.ajax({
                 type: 'GET',
@@ -29,6 +34,10 @@ module.exports = {
                 dataType: 'json',
                 success: function (data) {
                     let sessionId = data['sessionId'];
+
+                    document.cookie = 'sessionId=' + sessionId;
+                    console.log("Obtained new session ID " + sessionId);
+
                     Dispatcher.dispatch({
                         type: ActionTypes.SESSION_LOADED,
                         sessionId: sessionId

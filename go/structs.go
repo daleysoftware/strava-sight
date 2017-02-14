@@ -1,17 +1,11 @@
 package main
 
-import (
-	"github.com/jinzhu/gorm"
-)
-
 type Session struct {
-	gorm.Model
-	SessionId string
-	UserId    int
+	SessionId    string `gorm:"primary_key"`
+	StravaUserId int64
 }
 
 type User struct {
-	gorm.Model
-	StravaId uint `gorm:"index"`
-	Token    string
+	StravaUserId int64 `gorm:"primary_key"`
+	Token        string
 }

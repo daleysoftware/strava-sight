@@ -8,6 +8,7 @@ let ActionTypes = Constants.ActionTypes;
 let CHANGE_EVENT = 'change';
 
 let _sessionId = null;
+let _authenticated = false;
 
 let SessionStore = assign({}, EventEmitter.prototype, {
 
@@ -25,6 +26,10 @@ let SessionStore = assign({}, EventEmitter.prototype, {
 
     getSessionId: function() {
         return _sessionId;
+    },
+
+    getIsAuthenticated: function() {
+        return _authenticated;
     }
 });
 
@@ -34,6 +39,11 @@ SessionStore.dispatchToken = Dispatcher.register(function(action) {
 
         case ActionTypes.SESSION_LOADED:
             _sessionId = action.sessionId;
+            SessionStore.emitChange();
+            break;
+
+        case ActionTypes.SESSION_AUTHENTICATED:
+            _authenticated = true;
             SessionStore.emitChange();
             break;
 

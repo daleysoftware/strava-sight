@@ -18,9 +18,9 @@ See <a href="./DESIGN.md">DESIGN.md</a>
 
 Install MySQL and run the following commands in the root console.
 
-    create database tristrava;
-    create user 'tristrava'@'%';
-    grant all privileges on tristrava.* to 'tristrava'@'%' with grant option;
+    create database stravasight;
+    create user 'stravasight'@'%';
+    grant all privileges on stravasight.* to 'stravasight'@'%' with grant option;
 
 ### Export Strava variables in your environment
 
