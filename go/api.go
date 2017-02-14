@@ -42,12 +42,12 @@ func ApiInit(db *gorm.DB, clientId int, clientSecret string) {
 		v1.GET("/session", func(c *gin.Context) {
 			GetSession(db, c)
 		})
-		v1.GET("/session/:session/verify", func(c *gin.Context) {
-			GetSessionVerify(db, c)
+		v1.GET("/session/:session/auth/verify", func(c *gin.Context) {
+			GetSessionAuthVerify(db, c)
 		})
 
 		// Auth
-		v1.GET("/auth/init", GetAuthInit)
+		v1.GET("/session/:session/auth/init", GetSessionAuthInit)
 		v1.GET("/auth/response", func(c *gin.Context) {
 			authenticator.HandlerFunc(
 				func(auth *strava.AuthorizationResponse, w http.ResponseWriter, r *http.Request) {
@@ -74,7 +74,7 @@ func GetSession(db *gorm.DB, c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"sessionId": randomString})
 }
 
-func GetSessionVerify(db *gorm.DB, c *gin.Context) {
+func GetSessionAuthVerify(db *gorm.DB, c *gin.Context) {
 	sessionId := c.Param("session")
 	var session Session
 	db.Model(&Session{}).Where("session_id = ?", sessionId).Find(&session)
@@ -85,12 +85,8 @@ func GetSessionVerify(db *gorm.DB, c *gin.Context) {
 	c.Status(http.StatusOK)
 }
 
-func GetAuthInit(c *gin.Context) {
-	sessionId := c.Query("sessionId")
-	if len(sessionId) == 0 {
-		c.String(http.StatusBadRequest, "Missing sessionId query string")
-	}
-
+func GetSessionAuthInit(c *gin.Context) {
+	sessionId := c.Param("session")
 	c.Redirect(http.StatusTemporaryRedirect,
 		"https://www.strava.com/api/v3/oauth/authorize?"+
 			"client_id="+strconv.Itoa(strava.ClientId)+

@@ -37,7 +37,7 @@ SessionStore.dispatchToken = Dispatcher.register(function(action) {
 
     switch(action.type) {
 
-        case ActionTypes.SESSION_LOADED:
+        case ActionTypes.SESSION_NEW:
             _sessionId = action.sessionId;
             SessionStore.emitChange();
             break;

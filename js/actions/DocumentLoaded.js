@@ -22,11 +22,8 @@ module.exports = {
         if (!_.isEmpty(sessionId)) {
             console.log("Using old session ID " + sessionId);
 
-            Dispatcher.dispatch({
-                type: ActionTypes.SESSION_LOADED,
-                sessionId: sessionId
-            });
-            SessionLoadedActionCreator.sessionLoaded(sessionId);
+            // Old session ID loaded. We are not sure if it is authenticated at this point.
+            SessionLoadedActionCreator.oldSessionLoaded(sessionId);
         } else {
             $.ajax({
                 type: 'GET',
@@ -39,7 +36,7 @@ module.exports = {
                     console.log("Obtained new session ID " + sessionId);
 
                     Dispatcher.dispatch({
-                        type: ActionTypes.SESSION_LOADED,
+                        type: ActionTypes.SESSION_NEW,
                         sessionId: sessionId
                     });
                 }

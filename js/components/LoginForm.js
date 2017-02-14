@@ -25,7 +25,7 @@ let LoginForm = React.createClass({
     },
 
     render() {
-        let route = Constants.RestEndpoint + "/auth/init?sessionId=" + this.state.sessionId;
+        let route = Constants.RestEndpoint + "/session/" + this.state.sessionId + "/auth/init";
 
         if (this.state.sessionId !== null) {
             return (
