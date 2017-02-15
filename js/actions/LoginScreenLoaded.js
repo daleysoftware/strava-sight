@@ -16,7 +16,7 @@ function getCookie(name) {
 
 module.exports = {
 
-    documentLoaded: function() {
+    loginScreenLoaded: function() {
         let sessionId = getCookie('sessionId');
 
         if (!_.isEmpty(sessionId)) {

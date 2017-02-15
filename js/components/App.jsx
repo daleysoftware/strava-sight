@@ -1,7 +1,6 @@
 let React = require('react');
 
 let SessionStore = require('../stores/Session.js');
-let DocumentLoadedActionCreator = require('../actions/DocumentLoaded.js');
 
 let LoggedIn = require('./LoggedIn.js');
 let LoginForm = require('./LoginForm.js');
@@ -21,8 +20,6 @@ let App = React.createClass({
         //socket.on('message add', this.onMessageAdd.bind(this));
 
         SessionStore.addChangeListener(this._onChange);
-        DocumentLoadedActionCreator.documentLoaded();
-
     },
 
     componentWillUnMount: function() {

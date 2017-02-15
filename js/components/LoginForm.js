@@ -3,6 +3,8 @@ let React = require('react');
 let Constants = require('../constants/Constants.js');
 let SessionStore = require('../stores/Session.js');
 
+let LoginScreenActionCreator = require('../actions/LoginScreenLoaded.js');
+
 let LoginForm = React.createClass({
     getInitialState: function() {
         return {
@@ -12,14 +14,18 @@ let LoginForm = React.createClass({
 
     componentDidMount: function() {
         SessionStore.addChangeListener(this._onChange);
+        LoginScreenActionCreator.loginScreenLoaded();
     },
-    
+
     componentWillUnMount: function() {
         SessionStore.removeChangeListener(this._onChange)
     },
 
     _onChange: function() {
-        // FIXME getting an error on logout in this component
+        if (!this.isMounted()) {
+            return;
+        }
+
         this.setState({
             sessionId: SessionStore.getSessionId()
         });
