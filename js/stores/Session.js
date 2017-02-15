@@ -39,11 +39,19 @@ SessionStore.dispatchToken = Dispatcher.register(function(action) {
 
         case ActionTypes.SESSION_NEW:
             _sessionId = action.sessionId;
+            _authenticated = false;
             SessionStore.emitChange();
             break;
 
         case ActionTypes.SESSION_AUTHENTICATED:
+            _sessionId = action.sessionId;
             _authenticated = true;
+            SessionStore.emitChange();
+            break;
+
+        case ActionTypes.SESSION_DESTROYED:
+            _sessionId = null;
+            _authenticated = false;
             SessionStore.emitChange();
             break;
 

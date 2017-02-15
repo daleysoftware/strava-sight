@@ -7,6 +7,7 @@ module.exports = {
 
     ActionTypes: Object.freeze(keyMirror({
         SESSION_NEW: null,
-        SESSION_AUTHENTICATED: null
+        SESSION_AUTHENTICATED: null,
+        SESSION_DESTROYED: null
     }))
 };

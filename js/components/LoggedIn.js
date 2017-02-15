@@ -1,12 +1,11 @@
 let React = require('react');
 
-let Constants = require('../constants/Constants.js');
-let SessionStore = require('../stores/Session.js');
+let LogoutActionCreator = require('../actions/Logout.js');
+
 
 let LoggedIn = React.createClass({
     getInitialState: function() {
-        return {
-        };
+        return {};
     },
 
     componentDidMount: function() {
@@ -18,9 +17,17 @@ let LoggedIn = React.createClass({
     _onChange: function() {
     },
 
+    handleLogout: function(e) {
+        e.preventDefault();
+        LogoutActionCreator.logout();
+    },
+
     render() {
         return (
-            <p>Logged in!</p>
+            <div>
+                <p>Logged in!</p>
+                <p><a href="" onClick={this.handleLogout}>Log out</a></p>
+            </div>
         )
     }
 });

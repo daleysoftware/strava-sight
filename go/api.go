@@ -45,6 +45,9 @@ func ApiInit(db *gorm.DB, clientId int, clientSecret string) {
 		v1.GET("/session/:session/auth/verify", func(c *gin.Context) {
 			GetSessionAuthVerify(db, c)
 		})
+		v1.DELETE("/session/:session", func(c *gin.Context) {
+			DeleteSession(db, c)
+		})
 
 		// Auth
 		v1.GET("/session/:session/auth/init", GetSessionAuthInit)
@@ -83,6 +86,12 @@ func GetSessionAuthVerify(db *gorm.DB, c *gin.Context) {
 		return
 	}
 	c.Status(http.StatusOK)
+}
+
+func DeleteSession(db *gorm.DB, c *gin.Context) {
+	sessionId := c.Param("session")
+	log.Println(sessionId)
+	// TODO
 }
 
 func GetSessionAuthInit(c *gin.Context) {

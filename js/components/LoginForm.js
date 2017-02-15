@@ -19,17 +19,18 @@ let LoginForm = React.createClass({
     },
 
     _onChange: function() {
+        // FIXME getting an error on logout in this component
         this.setState({
             sessionId: SessionStore.getSessionId()
         });
     },
 
     render() {
-        let route = Constants.RestEndpoint + "/session/" + this.state.sessionId + "/auth/init";
+        let authInitRoute = Constants.RestEndpoint + "/session/" + this.state.sessionId + "/auth/init";
 
         if (this.state.sessionId !== null) {
             return (
-                <p><a href={route}>Login with Strava</a></p>
+                <p><a href={authInitRoute}>Login with Strava</a></p>
             )
         } else {
             return (

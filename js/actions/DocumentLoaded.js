@@ -20,8 +20,6 @@ module.exports = {
         let sessionId = getCookie('sessionId');
 
         if (!_.isEmpty(sessionId)) {
-            console.log("Using old session ID " + sessionId);
-
             // Old session ID loaded. We are not sure if it is authenticated at this point.
             SessionLoadedActionCreator.oldSessionLoaded(sessionId);
         } else {
@@ -31,10 +29,7 @@ module.exports = {
                 dataType: 'json',
                 success: function (data) {
                     let sessionId = data['sessionId'];
-
                     document.cookie = 'sessionId=' + sessionId;
-                    console.log("Obtained new session ID " + sessionId);
-
                     Dispatcher.dispatch({
                         type: ActionTypes.SESSION_NEW,
                         sessionId: sessionId
