@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/strava/go.strava"
 	"os"
 	"strconv"
 	"strings"
@@ -23,5 +24,11 @@ func main() {
 		os.Exit(1)
 	}
 
-	ApiInit(db, clientId, clientSecret)
+	strava.ClientId = clientId
+	strava.ClientSecret = clientSecret
+
+	users := make(chan User)
+
+	go WorkerInit(db, users)
+	ApiInit(db, users)
 }

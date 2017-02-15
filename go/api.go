@@ -13,7 +13,7 @@ import (
 	"time"
 )
 
-func ApiInit(db *gorm.DB, clientId int, clientSecret string) {
+func ApiInit(db *gorm.DB, users chan User) {
 	// Initialize a new Gin router
 	router := gin.Default()
 
@@ -27,9 +27,6 @@ func ApiInit(db *gorm.DB, clientId int, clientSecret string) {
 		Credentials:     true,
 		ValidateHeaders: false,
 	}))
-
-	strava.ClientId = clientId
-	strava.ClientSecret = clientSecret
 
 	authenticator := strava.OAuthAuthenticator{
 		CallbackURL:            "http://localhost:4000/v1/auth/response", // TODO update for prod
@@ -54,7 +51,7 @@ func ApiInit(db *gorm.DB, clientId int, clientSecret string) {
 		v1.GET("/auth/response", func(c *gin.Context) {
 			authenticator.HandlerFunc(
 				func(auth *strava.AuthorizationResponse, w http.ResponseWriter, r *http.Request) {
-					oAuthSuccess(db, c, auth)
+					oAuthSuccess(db, c, auth, users)
 				},
 				func(err error, w http.ResponseWriter, r *http.Request) {
 					oAuthFailure(c, err)
@@ -106,15 +103,20 @@ func GetSessionAuthInit(c *gin.Context) {
 			"&approval_prompt=force")
 }
 
-func oAuthSuccess(db *gorm.DB, c *gin.Context, auth *strava.AuthorizationResponse) {
+func oAuthSuccess(db *gorm.DB, c *gin.Context, auth *strava.AuthorizationResponse, users chan User) {
 	if dbResult := db.Save(&Session{SessionId: auth.State, StravaUserId: auth.Athlete.Id}); dbResult.Error != nil {
 		log.Println(dbResult.Error.Error())
 		c.Status(http.StatusInternalServerError)
 	}
-	if dbResult := db.Save(&User{StravaUserId: auth.Athlete.Id, Token: auth.AccessToken}); dbResult.Error != nil {
+	user := User{StravaUserId: auth.Athlete.Id, Token: auth.AccessToken}
+	if dbResult := db.Save(&user); dbResult.Error != nil {
 		log.Println(dbResult.Error.Error())
 		c.Status(http.StatusInternalServerError)
 	}
+
+	// Trigger download of user activities by worker.
+	users <- user
+
 	c.Redirect(http.StatusTemporaryRedirect, WebEndpoint)
 }
 
