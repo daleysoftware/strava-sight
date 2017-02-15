@@ -6,19 +6,17 @@ BUNDLE_DIR = .
 BUNDLE_JS = ${BUNDLE_DIR}/bundle.js
 BROWSERIFY_PARAMS = -t [ babelify --presets [ es2015 react ] ]
 
-bundle: npm
-	${BROWSERIFY} ${BROWSERIFY_PARAMS} ${APP_JS} -o ${BUNDLE_JS}
-npm:
+start:
+	./start.sh
+
+install:
 	npm install
 
-test:
-	npm start
+bundle: npm
+	${BROWSERIFY} ${BROWSERIFY_PARAMS} ${APP_JS} -o ${BUNDLE_JS}
 
-watch-and-serve: watch serve
 watch:
 	${WATCHIFY} ${BROWSERIFY_PARAMS} ${APP_JS} -o ${BUNDLE_JS}
-serve:
-	python -m SimpleHTTPServer
 
 clean:
 	rm -rf node_modules

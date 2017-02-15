@@ -10,7 +10,7 @@ See <a href="./DESIGN.md">DESIGN.md</a>
 
 ### Frontend
 
-    cd js && npm install && npm start
+    cd js && make install && make start
 
 ### Backend
 

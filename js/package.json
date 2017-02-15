@@ -22,6 +22,6 @@
     "watchify": "^3.7.0"
   },
   "scripts": {
-    "start": "make -j2 watch-and-serve"
+    "start": "make start"
   }
 }
