@@ -29,7 +29,7 @@ func ApiInit(db *gorm.DB, users chan User) {
 	}))
 
 	authenticator := strava.OAuthAuthenticator{
-		CallbackURL:            "http://localhost:4000/v1/auth/response", // TODO update for prod
+		CallbackURL:            "http://localhost:4000/v1/auth/response", // TODO update for prod.
 		RequestClientGenerator: nil,
 	}
 
@@ -66,7 +66,7 @@ func GetSession(db *gorm.DB, c *gin.Context) {
 	randomBytes := make([]byte, 32)
 	rand.Read(randomBytes)
 	randomString := hex.EncodeToString(randomBytes)
-	if dbResult := db.Save(&Session{SessionId: randomString}); dbResult.Error != nil {
+	if dbResult := db.Save(&Session{Id: randomString}); dbResult.Error != nil {
 		log.Println(dbResult.Error.Error())
 		c.Status(http.StatusInternalServerError)
 		return
@@ -77,8 +77,8 @@ func GetSession(db *gorm.DB, c *gin.Context) {
 func GetSessionAuthVerify(db *gorm.DB, c *gin.Context) {
 	sessionId := c.Param("session")
 	var session Session
-	db.Model(&Session{}).Where("session_id = ?", sessionId).Find(&session)
-	if session.StravaUserId == 0 {
+	db.Model(&Session{}).Where("id = ?", sessionId).Find(&session)
+	if session.UserId == 0 {
 		c.Status(http.StatusUnauthorized)
 		return
 	}
@@ -104,11 +104,11 @@ func GetSessionAuthInit(c *gin.Context) {
 }
 
 func oAuthSuccess(db *gorm.DB, c *gin.Context, auth *strava.AuthorizationResponse, users chan User) {
-	if dbResult := db.Save(&Session{SessionId: auth.State, StravaUserId: auth.Athlete.Id}); dbResult.Error != nil {
+	if dbResult := db.Save(&Session{Id: auth.State, UserId: auth.Athlete.Id}); dbResult.Error != nil {
 		log.Println(dbResult.Error.Error())
 		c.Status(http.StatusInternalServerError)
 	}
-	user := User{StravaUserId: auth.Athlete.Id, Token: auth.AccessToken}
+	user := User{Id: auth.Athlete.Id, Token: auth.AccessToken}
 	if dbResult := db.Save(&user); dbResult.Error != nil {
 		log.Println(dbResult.Error.Error())
 		c.Status(http.StatusInternalServerError)

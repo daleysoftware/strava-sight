@@ -2,6 +2,7 @@ var keyMirror = require('keymirror');
 
 module.exports = {
     
+    // TODO update for prod.
     RestEndpoint: 'http://localhost:4000/v1',
     WebsocketEndpoint: 'ws://localhost:5000',
 

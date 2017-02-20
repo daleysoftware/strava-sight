@@ -6,6 +6,7 @@ import (
 import (
 	"github.com/jinzhu/gorm"
 	"github.com/strava/go.strava"
+	"sync"
 )
 
 func WorkerInit(db *gorm.DB, users chan User) {
@@ -14,18 +15,18 @@ func WorkerInit(db *gorm.DB, users chan User) {
 		// TODO job state should also be added to the database.
 		select {
 		case user := <-users:
-			fetchUserActivities(user)
+			fetchUserActivities(db, user)
 		}
 	}
 }
 
-func fetchUserActivities(user User) {
+func fetchUserActivities(db *gorm.DB, user User) {
 	client := strava.NewClient(user.Token)
 	service := strava.NewCurrentAthleteService(client)
 
 	page := 1
 	for {
-		activitySummary, err := service.ListActivities().Page(page).PerPage(10).Do()
+		activities, err := service.ListActivities().Page(page).PerPage(100).Do()
 		page++
 
 		if err != nil {
@@ -33,18 +34,30 @@ func fetchUserActivities(user User) {
 			return
 		}
 
-		if len(activitySummary) == 0 {
+		if len(activities) == 0 {
 			return
 		}
 
-		// TODO persist in database.
+		log.Printf("Saving %d activities for %d\n", len(activities), user.Id)
 
-		log.Println(activitySummary)
-		log.Println(activitySummary[0].Type)
-		log.Println(activitySummary[0].AverageSpeed)
-		log.Println(activitySummary[0].MovingTime)
-		log.Println(activitySummary[0].Distance)
-		log.Println(activitySummary[0].Id)
+		// Parallelize database operations for saving each activity.
+		var wg sync.WaitGroup
+		for _, activity := range activities {
+			wg.Add(1)
 
+			go func(activity *strava.ActivitySummary) {
+				log.Printf("Saving activity %d\n", activity.Id)
+
+				defer wg.Done()
+				db.Save(&Activity{
+					Id:                activity.Id,
+					UserId:            user.Id,
+					Type:              activity.Type.String(),
+					MovingTimeSeconds: activity.MovingTime,
+					DistanceMeters:    activity.Distance,
+				})
+			}(activity)
+		}
+		wg.Wait()
 	}
 }
