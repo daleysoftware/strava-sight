@@ -12,7 +12,7 @@ start:
 install:
 	npm install
 
-bundle: npm
+bundle:
 	${BROWSERIFY} ${BROWSERIFY_PARAMS} ${APP_JS} -o ${BUNDLE_JS}
 
 watch:

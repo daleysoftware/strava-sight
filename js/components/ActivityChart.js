@@ -7,7 +7,7 @@ let Chart = React.createClass({
         let chartCanvas = this.refs.chart;
 
         let myChart = new ChartJS(chartCanvas, {
-            type: 'line',
+            type: 'bubble',
             data: this.props.data,
             options: this.props.options
         });
