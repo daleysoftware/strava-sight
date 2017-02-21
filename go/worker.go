@@ -1,18 +1,14 @@
 package main
 
 import (
-	"log"
-)
-import (
 	"github.com/jinzhu/gorm"
 	"github.com/strava/go.strava"
+	"log"
 	"sync"
 )
 
 func WorkerInit(db *gorm.DB, users chan User) {
 	for {
-		// TODO we should log jobs in the database for easy resume on restart.
-		// TODO job state should also be added to the database.
 		select {
 		case user := <-users:
 			fetchUserActivities(db, user)
@@ -23,6 +19,8 @@ func WorkerInit(db *gorm.DB, users chan User) {
 func fetchUserActivities(db *gorm.DB, user User) {
 	client := strava.NewClient(user.Token)
 	service := strava.NewCurrentAthleteService(client)
+
+	db.Delete(&Activity{}, "user_id = ?", user.Id)
 
 	page := 1
 	for {
@@ -35,7 +33,7 @@ func fetchUserActivities(db *gorm.DB, user User) {
 		}
 
 		if len(activities) == 0 {
-			return
+			break
 		}
 
 		log.Printf("Saving %d activities for %d\n", len(activities), user.Id)
@@ -60,4 +58,6 @@ func fetchUserActivities(db *gorm.DB, user User) {
 		}
 		wg.Wait()
 	}
+
+	// TODO Mark this task as done in some way.
 }

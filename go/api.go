@@ -29,11 +29,11 @@ func ApiInit(db *gorm.DB, users chan User) {
 	}))
 
 	authenticator := strava.OAuthAuthenticator{
-		CallbackURL:            "http://localhost:4000/v1/auth/response", // TODO update for prod.
+		CallbackURL:            RestEndpoint + "/auth/response",
 		RequestClientGenerator: nil,
 	}
 
-	v1 := router.Group("v1")
+	v1 := router.Group("api").Group("v1")
 	{
 		// Sessions
 		v1.GET("/session", func(c *gin.Context) {
@@ -88,7 +88,7 @@ func GetSessionAuthVerify(db *gorm.DB, c *gin.Context) {
 func DeleteSession(db *gorm.DB, c *gin.Context) {
 	sessionId := c.Param("session")
 	log.Println(sessionId)
-	// TODO
+	// TODO finish delete session.
 }
 
 func GetSessionAuthInit(c *gin.Context) {

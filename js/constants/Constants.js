@@ -1,10 +1,11 @@
 var keyMirror = require('keymirror');
 
 module.exports = {
-    
-    // TODO update for prod.
-    RestEndpoint: 'http://localhost:4000/v1',
-    WebsocketEndpoint: 'ws://localhost:5000',
+    // TODO make these env variables.
+    // Dev
+    RestEndpoint: 'http://localhost:4000/api/v1',
+    // Prod
+    //RestEndpoint: 'https://stravasight.com/api/v1',
 
     ActionTypes: Object.freeze(keyMirror({
         SESSION_NEW: null,

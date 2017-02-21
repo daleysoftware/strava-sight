@@ -6,6 +6,8 @@ The following document outlines the high-level design of this platform.
 
 Interaction between Golang, JavaScript and MySQL.
 
+TODO remove web socket and add a descriptiona bout the job queue.
+
                 +-----------+
           +-----| Job Queue |<----+
           |     +-----------+     |
