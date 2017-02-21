@@ -1,7 +1,11 @@
 let React = require('react');
 
+let ActivitiesStore = require('../stores/Activities.js');
+let ActivitiesActionCreator = require('../actions/Activities.js');
+
 let LogoutActionCreator = require('../actions/Logout.js');
-let Chart = require('./Chart.js');
+
+let ActivityChart = require('./ActivityChart.js');
 
 let data = {
     labels: [
@@ -75,17 +79,41 @@ let options = {
 };
 
 let LoggedIn = React.createClass({
+
+    getStateFromStore: function() {
+        return {
+            activities: ActivitiesStore.getActivities(),
+            loading: ActivitiesStore.getIsLoading()
+        };
+    },
+
     getInitialState: function() {
-        return {};
+        return this.getStateFromStore();
     },
 
     componentDidMount: function() {
+        ActivitiesStore.addChangeListener(this._onChange);
+        ActivitiesActionCreator.tryLoadActivities();
     },
     
     componentWillUnMount: function() {
+        ActivitiesStore.removeChangeListener(this._onChange);
     },
 
     _onChange: function() {
+        if (!this.isMounted()) {
+            return;
+        }
+
+        if (ActivitiesStore.getIsLoading()) {
+            // If we are still loading, re-trigger the activities fetch routine after a delay.
+            setTimeout(function() {
+                ActivitiesActionCreator.tryLoadActivities();
+            }, 5000);
+        }
+
+        let state = this.getStateFromStore();
+        this.setState({state});
     },
 
     handleLogout: function(e) {
@@ -94,10 +122,11 @@ let LoggedIn = React.createClass({
     },
 
     render() {
+        // TODO render the chart using activities and a loading screen if not loaded yet.
         return (
             <div>
                 <p>Logged in!</p>
-                <Chart data={data} options={options} />
+                <ActivityChart data={data} options={options} />
                 <p><a href="" onClick={this.handleLogout}>Log out</a></p>
             </div>
         )

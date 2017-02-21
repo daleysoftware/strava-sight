@@ -57,6 +57,11 @@ func ApiInit(db *gorm.DB, users chan User) {
 					oAuthFailure(c, err)
 				})(c.Writer, c.Request)
 		})
+
+		// Activity data
+		v1.GET("/activities", func(c *gin.Context) {
+			GetActivities(db, c)
+		})
 	}
 
 	router.Run(":4000")
@@ -87,8 +92,8 @@ func GetSessionAuthVerify(db *gorm.DB, c *gin.Context) {
 
 func DeleteSession(db *gorm.DB, c *gin.Context) {
 	sessionId := c.Param("session")
-	log.Println(sessionId)
-	// TODO finish delete session.
+	db.Delete(&Session{}, "id = ?", sessionId)
+	c.Status(http.StatusOK)
 }
 
 func GetSessionAuthInit(c *gin.Context) {
@@ -115,6 +120,7 @@ func oAuthSuccess(db *gorm.DB, c *gin.Context, auth *strava.AuthorizationRespons
 	}
 
 	// Trigger download of user activities by worker.
+	db.Save(&FetchTask{UserId: user.Id, Fetching: true})
 	users <- user
 
 	c.Redirect(http.StatusTemporaryRedirect, WebEndpoint)
@@ -123,4 +129,25 @@ func oAuthSuccess(db *gorm.DB, c *gin.Context, auth *strava.AuthorizationRespons
 func oAuthFailure(c *gin.Context, err error) {
 	log.Println(err.Error())
 	c.Status(http.StatusUnauthorized)
+}
+
+func GetActivities(db *gorm.DB, c *gin.Context) {
+	var session Session
+	db.Model(&Session{}).Where("id = ?", c.Request.Header.Get("Authorization")).Find(&session)
+	if session.UserId == 0 {
+		c.JSON(http.StatusUnauthorized, gin.H{})
+		return
+	}
+
+	var fetchTask FetchTask
+	db.Model(&FetchTask{}).Where("user_id = ?", session.UserId).Find(&fetchTask)
+	if fetchTask.Fetching {
+		c.JSON(http.StatusAccepted, gin.H{})
+		return
+	}
+
+	// TODO finish get activities. Return 200 and content.
+	c.JSON(http.StatusOK, gin.H{
+		"message": "pong",
+	})
 }

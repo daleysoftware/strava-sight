@@ -4,7 +4,13 @@ Data visualizations and insights for triathletes using Strava.
 
 ## Design
 
-See <a href="./DESIGN.md">DESIGN.md</a>
+See <a href="./DESIGN.md">DESIGN.md</a>.
+
+Technologies used:
+
+* React.j and Chart.js
+* MySQL
+* Golang
 
 ## Running the application
 

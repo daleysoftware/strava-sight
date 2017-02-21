@@ -15,6 +15,7 @@ func DatabaseInit() (*gorm.DB, error) {
 	db.AutoMigrate(&User{})
 	db.AutoMigrate(&Session{})
 	db.AutoMigrate(&Activity{})
+	db.AutoMigrate(&FetchTask{})
 
 	return db, nil
 }

@@ -17,3 +17,8 @@ type Activity struct {
 	MovingTimeSeconds int
 	DistanceMeters    float64
 }
+
+type FetchTask struct {
+	UserId   int64 `gorm:"primary_key"`
+	Fetching bool
+}

@@ -3,7 +3,7 @@ let React = require('react');
 let Constants = require('../constants/Constants.js');
 let SessionStore = require('../stores/Session.js');
 
-let LoginScreenActionCreator = require('../actions/LoginScreenLoaded.js');
+let SessionActionCreator = require('../actions/Session.js');
 
 let LoginForm = React.createClass({
     getInitialState: function() {
@@ -14,7 +14,7 @@ let LoginForm = React.createClass({
 
     componentDidMount: function() {
         SessionStore.addChangeListener(this._onChange);
-        LoginScreenActionCreator.loginScreenLoaded();
+        SessionActionCreator.loadSessionFromCookie();
     },
 
     componentWillUnMount: function() {

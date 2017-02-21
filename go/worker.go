@@ -59,5 +59,6 @@ func fetchUserActivities(db *gorm.DB, user User) {
 		wg.Wait()
 	}
 
-	// TODO Mark this task as done in some way.
+	// Mark this task as done, the API may now serve up the results.
+	db.Save(&FetchTask{UserId: user.Id, Fetching: false})
 }
