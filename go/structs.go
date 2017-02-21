@@ -1,5 +1,7 @@
 package main
 
+import "time"
+
 type Session struct {
 	Id     string `gorm:"primary_key"`
 	UserId int64
@@ -16,6 +18,7 @@ type Activity struct {
 	Type              string `gorm:"index"`
 	MovingTimeSeconds int
 	DistanceMeters    float64
+	StartDate         time.Time
 }
 
 type FetchTask struct {
