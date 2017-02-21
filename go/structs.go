@@ -13,12 +13,12 @@ type User struct {
 }
 
 type Activity struct {
-	Id                int64  `gorm:"primary_key"`
-	UserId            int64  `gorm:"index"`
-	Type              string `gorm:"index"`
-	MovingTimeSeconds int
-	DistanceMeters    float64
-	StartDate         time.Time
+	Id                int64     `gorm:"primary_key" json:"id"`
+	UserId            int64     `gorm:"index" json:"-"`
+	Type              string    `gorm:"index" json:"-"`
+	MovingTimeSeconds int       `json:"movingTimeSeconds"`
+	DistanceMeters    float64   `json:"distanceMeters"`
+	StartDate         time.Time `json:"startDate"`
 }
 
 type FetchTask struct {

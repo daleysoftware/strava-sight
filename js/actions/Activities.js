@@ -22,7 +22,7 @@ module.exports = {
                 if (xhr.status == 200) {
                     Dispatcher.dispatch({
                         type: ActionTypes.ACTIVITIES_LOADED,
-                        activities: data
+                        activities: JSON.parse(data)
                     });
                 } else if (xhr.status == 202) {
                      Dispatcher.dispatch({

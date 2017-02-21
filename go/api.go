@@ -3,6 +3,7 @@ package main
 import (
 	"crypto/rand"
 	"encoding/hex"
+	"encoding/json"
 	"github.com/gin-gonic/gin"
 	"github.com/itsjamie/gin-cors"
 	"github.com/jinzhu/gorm"
@@ -146,8 +147,18 @@ func GetActivities(db *gorm.DB, c *gin.Context) {
 		return
 	}
 
-	// TODO finish get activities. Return 200 and content.
-	c.JSON(http.StatusOK, gin.H{
-		"message": "pong",
-	})
+	var runningActivities []Activity
+	var cyclingActivities []Activity
+	var swimmingActivities []Activity
+	db.Model(&Activity{}).Where("user_id = ? and type = 'Run'", session.UserId).Find(&runningActivities)
+	db.Model(&Activity{}).Where("user_id = ? and type = 'Ride'", session.UserId).Find(&cyclingActivities)
+	db.Model(&Activity{}).Where("user_id = ? and type = 'Swim'", session.UserId).Find(&swimmingActivities)
+
+	result := make(map[string]interface{})
+	result["running"] = runningActivities
+	result["cycling"] = cyclingActivities
+	result["swimming"] = swimmingActivities
+
+	b, _ := json.Marshal(result)
+	c.JSON(http.StatusOK, string(b))
 }

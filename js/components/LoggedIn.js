@@ -8,6 +8,9 @@ let LogoutActionCreator = require('../actions/Logout.js');
 let ActivityChart = require('./ActivityChart.js');
 
 let rawData = [
+    // x is date
+    // y is pace
+    // r is distance
     {x: 0, y: 6, r: 10},
     {x: 1, y: 5, r: 10},
     {x: 2, y: 4, r: 10},
@@ -20,9 +23,23 @@ let rawData = [
 let data = {
     datasets: [
         {
-            label: "My first dataset",
-            backgroundColor: "rgba(255,0,0,0.3)",
+            label: "Cycling",
+            backgroundColor: "rgba(255,0,0,0.7)",
             data: rawData,
+        },
+        {
+            label: "Running",
+            backgroundColor: "rgba(0,255,0,0.7)",
+            data: [
+                {x: 4, y: 4, r: 15}
+            ]
+        },
+        {
+            label: "Swimming",
+            backgroundColor: "rgba(0,0,255,0.7)",
+            data: [
+                {x: 3, y: 5, r: 20}
+            ]
         }
     ]
 };
@@ -98,11 +115,11 @@ let LoggedIn = React.createClass({
             // If we are still loading, re-trigger the activities fetch routine after a delay.
             setTimeout(function() {
                 ActivitiesActionCreator.tryLoadActivities();
-            }, 5000);
+            }, 1000);
         }
 
         let state = this.getStateFromStore();
-        this.setState({state});
+        this.setState(state);
     },
 
     handleLogout: function(e) {
