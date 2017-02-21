@@ -1,4 +1,5 @@
 let React = require('react');
+let $ = require('jquery');
 
 let ActivitiesStore = require('../stores/Activities.js');
 let ActivitiesActionCreator = require('../actions/Activities.js');
@@ -7,82 +8,6 @@ let LogoutActionCreator = require('../actions/Logout.js');
 
 let ActivityChart = require('./ActivityChart.js');
 
-let rawData = [
-    // x is date
-    // y is pace
-    // r is distance
-    {x: 0, y: 6, r: 10},
-    {x: 1, y: 5, r: 10},
-    {x: 2, y: 4, r: 10},
-    {x: 3, y: 3, r: 10},
-    {x: 4, y: 3, r: 10},
-    {x: 5, y: 2.4, r: 20},
-    {x: 6, y: 2, r: 10},
-];
-
-let data = {
-    datasets: [
-        {
-            label: "Cycling",
-            backgroundColor: "rgba(255,0,0,0.7)",
-            data: rawData,
-        },
-        {
-            label: "Running",
-            backgroundColor: "rgba(0,255,0,0.7)",
-            data: [
-                {x: 4, y: 4, r: 15}
-            ]
-        },
-        {
-            label: "Swimming",
-            backgroundColor: "rgba(0,0,255,0.7)",
-            data: [
-                {x: 3, y: 5, r: 20}
-            ]
-        }
-    ]
-};
-
-let options = {
-    responsive: true,
-    maintainAspectRatio: true,
-    
-    title: {
-        display: true,
-        text: 'Pace Analysis'
-    },
-
-    tooltips: {
-        callbacks: {
-            label: function(tooltipItem, data) {
-                return JSON.stringify(rawData[tooltipItem['index']]);
-            }
-        }
-    },
-
-    scales: {
-        xAxes: [{
-            ticks: {
-                callback: function (value, index, values) {
-                    return 'value is ' + value;
-                }
-            },
-            scaleLabel: {
-                display: true,
-                labelString: 'Date'
-            },
-        }],
-        yAxes: [
-            {
-                scaleLabel: {
-                    display: true,
-                    labelString: 'Pace'
-                }
-            }
-        ]
-    }
-};
 
 let LoggedIn = React.createClass({
 
@@ -94,7 +19,9 @@ let LoggedIn = React.createClass({
     },
 
     getInitialState: function() {
-        return this.getStateFromStore();
+        let initialState = this.getStateFromStore();
+        initialState['selectedActivity'] = 'cycling';
+        return initialState;
     },
 
     componentDidMount: function() {
@@ -118,8 +45,7 @@ let LoggedIn = React.createClass({
             }, 1000);
         }
 
-        let state = this.getStateFromStore();
-        this.setState(state);
+        this.setState(this.getStateFromStore());
     },
 
     handleLogout: function(e) {
@@ -127,12 +53,41 @@ let LoggedIn = React.createClass({
         LogoutActionCreator.logout();
     },
 
+    handleActivitySelection() {
+        let activity = $('[name="activity"]:checked').val();
+        this.setState({
+            selectedActivity: activity
+        });
+    },
+
     render() {
-        // TODO render the chart using activities and a loading screen if not loaded yet.
+        let chartSection = null;
+        if (this.state.activities === null) {
+            chartSection = (
+                <p>Loading...</p>
+            );
+        } else {
+            chartSection = (
+                <ActivityChart
+                    activities={this.state.activities}
+                    selectedActivity={this.state.selectedActivity} />
+            );
+        }
+
         return (
             <div>
                 <p>Logged in!</p>
-                <ActivityChart data={data} options={options} />
+
+                <form onChange={this.handleActivitySelection}>
+                    <input type="radio" name="activity" value="swimming" />
+                    <label>Swimming</label>
+                    <input type="radio" name="activity" value="cycling" defaultChecked />
+                    <label>Cycling</label>
+                    <input type="radio" name="activity" value="running" />
+                    <label>Running</label>
+                </form>
+
+                {chartSection}
                 <p><a href="" onClick={this.handleLogout}>Log out</a></p>
             </div>
         )

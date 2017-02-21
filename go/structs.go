@@ -1,7 +1,5 @@
 package main
 
-import "time"
-
 type Session struct {
 	Id     string `gorm:"primary_key"`
 	UserId int64
@@ -13,12 +11,12 @@ type User struct {
 }
 
 type Activity struct {
-	Id                int64     `gorm:"primary_key" json:"id"`
-	UserId            int64     `gorm:"index" json:"-"`
-	Type              string    `gorm:"index" json:"-"`
-	MovingTimeSeconds int       `json:"movingTimeSeconds"`
-	DistanceMeters    float64   `json:"distanceMeters"`
-	StartDate         time.Time `json:"startDate"`
+	Id                int64   `gorm:"primary_key" json:"id"`
+	UserId            int64   `gorm:"index" json:"-"`
+	Type              string  `gorm:"index" json:"-"`
+	MovingTimeSeconds int     `json:"movingTimeSeconds"`
+	DistanceMeters    float64 `json:"distanceMeters"`
+	StartDate         int64   `json:"startDate"`
 }
 
 type FetchTask struct {

@@ -53,7 +53,7 @@ func fetchUserActivities(db *gorm.DB, user User) {
 					Type:              activity.Type.String(),
 					MovingTimeSeconds: activity.MovingTime,
 					DistanceMeters:    activity.Distance,
-					StartDate:         activity.StartDate,
+					StartDate:         activity.StartDate.Unix(),
 				})
 			}(activity)
 		}
