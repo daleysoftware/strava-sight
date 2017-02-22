@@ -20,11 +20,11 @@ well-established data pipeline engine, like AWS Data Pipeline.
                       |         +-------+
                       |         | MySQL |
                       |         +-------+
-                      v             ^
+                      |             ^
                 +-----------+       |
                 | REST srvc |<------+
                 +-----------+
-                      |
+                      ^
     BE                |
     ==================|==================
     FE                |

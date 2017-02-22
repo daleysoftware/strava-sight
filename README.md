@@ -1,6 +1,6 @@
 # Strava Sight
 
-Data visualizations and insights for triathletes using Strava.
+Visualize your Strava activities in a unique bubble chart.
 
 ## Design
 
@@ -8,7 +8,7 @@ See <a href="./DESIGN.md">DESIGN.md</a>.
 
 Technologies used:
 
-* React.j and Chart.js
+* React.js and Chart.js
 * MySQL
 * Golang
 
