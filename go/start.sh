@@ -1,5 +1,10 @@
 #!/bin/bash
 
+export MYSQL_USER=stravasight
+export MYSQL_PASSWORD=
+export MYSQL_HOST=
+export MYSQL_DB_NAME=stravasight
+
 go run *.go &
 run_pid=$!
 

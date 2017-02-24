@@ -36,3 +36,6 @@ Install MySQL and run the following commands in the root console.
 #### Run Go code
 
     cd go && make install && make start
+
+Note that running this command will export default MySQL env variables for your
+convenience. In production, set these appropriately.

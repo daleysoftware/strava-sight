@@ -9,13 +9,7 @@ import (
 )
 
 func main() {
-	db, err := DatabaseInit()
-	defer db.Close()
-
-	if err != nil {
-		panic(err.Error())
-	}
-
+	// Strava config.
 	clientId, err := strconv.Atoi(strings.TrimSpace(os.Getenv("STRAVA_CLIENT_ID")))
 	clientSecret := strings.TrimSpace(os.Getenv("STRAVA_CLIENT_SECRET"))
 
@@ -27,8 +21,22 @@ func main() {
 	strava.ClientId = clientId
 	strava.ClientSecret = clientSecret
 
-	users := make(chan User)
+	// MySQL config.
+	mysqlUser := strings.TrimSpace(os.Getenv("MYSQL_USER"))
+	mysqlPassword := strings.TrimSpace(os.Getenv("MYSQL_PASSWORD"))
+	mysqlHost := strings.TrimSpace(os.Getenv("MYSQL_HOST"))
+	mysqlDbName := strings.TrimSpace(os.Getenv("MYSQL_DB_NAME"))
 
+	db, err := DatabaseInit(mysqlUser, mysqlPassword, mysqlHost, mysqlDbName)
+	defer db.Close()
+	if err != nil {
+		panic(err.Error())
+	}
+
+	// Worker.
+	users := make(chan User)
 	go WorkerInit(db, users)
+
+	// API.
 	ApiInit(db, users)
 }

@@ -1,12 +1,14 @@
 package main
 
 import (
+	"fmt"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
-func DatabaseInit() (*gorm.DB, error) {
-	db, err := gorm.Open("mysql", "stravasight@/stravasight?charset=utf8&parseTime=True&loc=Local")
+func DatabaseInit(user string, password string, host string, dbName string) (*gorm.DB, error) {
+	db, err := gorm.Open("mysql",
+		fmt.Sprintf("%s:%s@%s/%s?charset=utf8&parseTime=True&loc=Local", user, password, host, dbName))
 
 	if err != nil {
 		return nil, err
