@@ -36,7 +36,17 @@ let LoginForm = React.createClass({
 
         if (this.state.sessionId !== null) {
             return (
-                <p><a href={authInitRoute}>Login with Strava</a></p>
+                <div className="vertical-center">
+                    <div className="container-fluid">
+                        <div className="row">
+                            <div className="col-sm-12">
+                                <a className="text-center center-block" href={authInitRoute}>
+                                    <img className="connect-logo" src="images/connect.png"/>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             )
         } else {
             return (

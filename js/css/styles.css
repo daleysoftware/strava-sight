@@ -1,0 +1,24 @@
+.chart {
+    max-width: 1000px;
+}
+
+.connect-logo {
+    width: 220px;
+}
+
+.vertical-center {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+.top-buffer {
+    margin-top: 10px;
+}
+
+label {
+    margin-left: 3px;
+    margin-right: 10px;
+    font-weight: normal;
+}
+

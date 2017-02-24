@@ -14,4 +14,4 @@ function stop_processes()
 }
 
 trap stop_processes SIGHUP SIGINT SIGTERM
-sleep infinity
+tail -f /dev/null

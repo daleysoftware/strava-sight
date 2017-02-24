@@ -64,7 +64,15 @@ let LoggedIn = React.createClass({
         let chartSection = null;
         if (this.state.activities === null) {
             chartSection = (
-                <p>Loading...</p>
+                <div className="vertical-center">
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-sm-12">
+                                <h4 className="text-center center-block">Loading...</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             );
         } else {
             chartSection = (
@@ -75,20 +83,28 @@ let LoggedIn = React.createClass({
         }
 
         return (
-            <div>
-                <p>Logged in!</p>
+            <div className="container-fluid">
+                <div className="row top-buffer">
 
-                <form onChange={this.handleActivitySelection}>
-                    <input type="radio" name="activity" value="swimming" />
-                    <label>Swimming</label>
-                    <input type="radio" name="activity" value="cycling" defaultChecked />
-                    <label>Cycling</label>
-                    <input type="radio" name="activity" value="running" />
-                    <label>Running</label>
-                </form>
+                    <div className="col-xs-6">
+                        <form onChange={this.handleActivitySelection}>
+                            <input type="radio" name="activity" value="swimming" />
+                            <label>Swimming</label>
+                            <input type="radio" name="activity" value="cycling" defaultChecked />
+                            <label>Cycling</label>
+                            <input type="radio" name="activity" value="running" />
+                            <label>Running</label>
+                        </form>
+                    </div>
 
-                {chartSection}
-                <p><a href="" onClick={this.handleLogout}>Log out</a></p>
+                    <div className="col-xs-6">
+                        <p className="text-right"><a href="" onClick={this.handleLogout}>Log out</a></p>
+                    </div>
+
+                </div>
+                <div className="row">
+                    {chartSection}
+                </div>
             </div>
         )
     }

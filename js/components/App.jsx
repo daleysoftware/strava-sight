@@ -29,15 +29,11 @@ let App = React.createClass({
     render() {
         if (this.state.authenticated) {
             return (
-                <div className="app">
-                    <LoggedIn />
-                </div>
+                <LoggedIn />
             )
         } else {
             return (
-                <div className='app'>
-                    <LoginForm />
-                </div>
+                <LoginForm />
             )
         }
     }

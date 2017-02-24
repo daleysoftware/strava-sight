@@ -158,7 +158,7 @@ let Chart = React.createClass({
         }
 
         return (
-            <div className="charts">
+            <div className="chart center-block">
                 <canvas ref={'chart'} />
             </div>
         );
