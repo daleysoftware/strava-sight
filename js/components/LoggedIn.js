@@ -7,7 +7,7 @@ let ActivitiesActionCreator = require('../actions/Activities.js');
 let LogoutActionCreator = require('../actions/Logout.js');
 
 let ActivityChart = require('./ActivityChart.js');
-
+let Loading = require('./Loading.js');
 
 let LoggedIn = React.createClass({
 
@@ -64,15 +64,7 @@ let LoggedIn = React.createClass({
         let chartSection = null;
         if (this.state.activities === null) {
             chartSection = (
-                <div className="vertical-center">
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-sm-12">
-                                <h4 className="text-center center-block">Loading...</h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <Loading />
             );
         } else {
             chartSection = (
