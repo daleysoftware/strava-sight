@@ -1,6 +1,8 @@
 # Strava Sight
 
-Visualize your Strava activities in a unique bubble chart.
+Visualize your Strava activities in a unique bubble chart. Example:
+
+<img src="./example.png"/>
 
 ## Design
 
