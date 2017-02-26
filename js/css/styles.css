@@ -13,7 +13,6 @@
 h1 {
     font-family: 'Montserrat Extrabold', sans-serif;
     text-transform: uppercase;
-    text-align: center;
     font-weight: normal;
 }
 
@@ -31,10 +30,6 @@ label {
     font-weight: normal;
 }
 
-.chart {
-    max-width: 1000px;
-}
-
 .connect-logo {
     width: 220px;
 }
@@ -47,4 +42,28 @@ label {
 
 .top-buffer {
     margin-top: 10px;
+}
+
+.loader {
+    border: 16px solid #f3f3f3;
+    border-top: 16px solid #fc4c02;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.pad-above {
+    margin-top:30px;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }

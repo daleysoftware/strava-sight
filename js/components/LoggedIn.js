@@ -61,44 +61,50 @@ let LoggedIn = React.createClass({
     },
 
     render() {
-        let chartSection = null;
         if (this.state.activities === null) {
-            chartSection = (
+            return (
                 <Loading />
             );
         } else {
-            chartSection = (
-                <ActivityChart
-                    activities={this.state.activities}
-                    selectedActivity={this.state.selectedActivity} />
+            return (
+                <div className="container-fluid">
+                    <div className="row top-buffer">
+                        <div className="col-xs-2"/>
+                        <div className="col-xs-8 text-center">
+                            <h1>Strava Sight</h1>
+                            <p>Visualize your Strava activities in a unique bubble chart.</p>
+                        </div>
+
+                        <div className="col-xs-2">
+                            <p className="text-right"><a href="" onClick={this.handleLogout}>Log out</a></p>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <ActivityChart
+                            activities={this.state.activities}
+                            selectedActivity={this.state.selectedActivity} />
+                    </div>
+                    <div className="row pad-above">
+                        <div className="col-xs-12 text-center">
+                            <form onChange={this.handleActivitySelection}>
+                                <input type="radio" name="activity" value="swimming" />
+                                <label>Swimming</label>
+                                <input type="radio" name="activity" value="cycling" defaultChecked />
+                                <label>Cycling</label>
+                                <input type="radio" name="activity" value="running" />
+                                <label>Running</label>
+                            </form>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-xs-12 text-center">
+                            <p>Tip: hover over an activity and click to view in Strava.</p>
+                        </div>
+                    </div>
+                </div>
             );
         }
 
-        return (
-            <div className="container-fluid">
-                <div className="row top-buffer">
-
-                    <div className="col-xs-6">
-                        <form onChange={this.handleActivitySelection}>
-                            <input type="radio" name="activity" value="swimming" />
-                            <label>Swimming</label>
-                            <input type="radio" name="activity" value="cycling" defaultChecked />
-                            <label>Cycling</label>
-                            <input type="radio" name="activity" value="running" />
-                            <label>Running</label>
-                        </form>
-                    </div>
-
-                    <div className="col-xs-6">
-                        <p className="text-right"><a href="" onClick={this.handleLogout}>Log out</a></p>
-                    </div>
-
-                </div>
-                <div className="row">
-                    {chartSection}
-                </div>
-            </div>
-        )
     }
 });
 

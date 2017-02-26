@@ -41,8 +41,8 @@ let LoginForm = React.createClass({
                 <div className="vertical-center">
                     <div className="container-fluid">
                         <div className="row">
-                            <div className="col-sm-12">
-                                <h1> Strava Sight</h1>
+                            <div className="col-sm-12 text-center">
+                                <h1>Strava Sight</h1>
                                 <p>Visualize your Strava activities in a unique bubble chart.</p>
                                 <a className="text-center center-block" href={authInitRoute}>
                                     <img className="connect-logo" src="images/connect.png"/>

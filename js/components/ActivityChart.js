@@ -2,24 +2,20 @@ let React = require('react');
 let ChartJS = require('chart.js');
 let Util = require('../util/Util.js');
 
-
 let lastTooltipActivity = null;
 
 let data = {
     datasets: [
         {
-            label: "Swimming",
-            backgroundColor: "rgba(0,0,255,0.7)",
+            backgroundColor: "rgba(252, 76, 2, 0.7)",
             data: []
         },
         {
-            label: "Cycling",
-            backgroundColor: "rgba(255,0,0,0.7)",
+            backgroundColor: "rgba(252, 76, 2, 0.7)",
             data: []
         },
         {
-            label: "Running",
-            backgroundColor: "rgba(0,255,0,0.7)",
+            backgroundColor: "rgba(252, 76, 2, 0.7)",
             data: []
         }
     ]
@@ -32,6 +28,10 @@ let options = {
     title: {
         display: true,
         text: 'Pace Analysis'
+    },
+
+    legend: {
+        display: false
     },
 
     tooltips: {
@@ -64,14 +64,14 @@ let options = {
             },
             scaleLabel: {
                 display: true,
-                labelString: 'Time'
+                labelString: 'Date'
             }
         }],
         yAxes: [
             {
                 scaleLabel: {
                     display: true,
-                    labelString: 'Pace [min/mile]'
+                    labelString: 'Pace (min/mile)'
                 }
             }
         ]
@@ -116,10 +116,11 @@ let Chart = React.createClass({
             chart: null
         };
     },
-    
+
     componentDidMount: function() {
         let chartCanvas = this.refs.chart;
- 
+        ChartJS.defaults.global.defaultFontFamily = "Open Sans', sans-serif;";
+
         let myChart = new ChartJS(chartCanvas, {
             type: 'bubble',
             data: data,
@@ -156,12 +157,16 @@ let Chart = React.createClass({
         if (this.state.chart !== null) {
             this.state.chart.update();
         }
-
         return (
-            <div className="chart center-block">
-                <canvas ref={'chart'} />
+            <div>
+                <div className="col-xs-1" />
+                <div className="col-xs-10 center-block">
+                    <canvas ref={'chart'} />
+                </div>
+                <div className="col-xs-1" />
             </div>
         );
+
     }
 });
 
