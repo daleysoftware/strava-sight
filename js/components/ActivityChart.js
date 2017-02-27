@@ -9,16 +9,7 @@ let data = {
         {
             backgroundColor: "rgba(252, 76, 2, 0.7)",
             data: []
-        },
-        {
-            backgroundColor: "rgba(252, 76, 2, 0.7)",
-            data: []
-        },
-        {
-            backgroundColor: "rgba(252, 76, 2, 0.7)",
-            data: []
-        }
-    ]
+        }]
 };
 
 let options = {
@@ -131,28 +122,7 @@ let Chart = React.createClass({
     },
 
     render () {
-        data.datasets[0].data = [];
-        data.datasets[1].data = [];
-        data.datasets[2].data = [];
-
-        let datasetIndex = null;
-        let activities = addXYR(this.props.activities[this.props.selectedActivity]);
-
-        switch(this.props.selectedActivity) {
-            case 'swimming':
-                datasetIndex = 0;
-                break;
-            case 'cycling':
-                datasetIndex = 1;
-                break;
-            case 'running':
-                datasetIndex = 2;
-                break;
-            default:
-                break;
-        }
-
-        data.datasets[datasetIndex].data = activities;
+        data.datasets[0].data = addXYR(this.props.activities);
 
         if (this.state.chart !== null) {
             this.state.chart.update();

@@ -80,9 +80,7 @@ let LoggedIn = React.createClass({
                         </div>
                     </div>
                     <div className="row">
-                        <ActivityChart
-                            activities={this.state.activities}
-                            selectedActivity={this.state.selectedActivity} />
+                        <ActivityChart activities={this.state.activities[this.state.selectedActivity]} />
                     </div>
                     <div className="row pad-above">
                         <div className="col-xs-12 text-center">
