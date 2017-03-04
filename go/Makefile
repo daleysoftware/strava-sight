@@ -2,8 +2,10 @@ start:
 	./start.sh
 
 install:
-	go get -u github.com/FiloSottile/gvt
-	gvt restore
+	go get -u github.com/kardianos/govendor
 
-clean:
-	rm -rf vendor/*/
+update:
+	govendor update +external
+
+sync:
+	govendor sync
