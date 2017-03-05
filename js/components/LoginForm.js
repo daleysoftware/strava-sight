@@ -34,7 +34,10 @@ let LoginForm = React.createClass({
     },
 
     render() {
-        let authInitRoute = Constants.RestEndpoint + "/session/" + this.state.sessionId + "/auth/init";
+        let authInitRoute =
+                Constants.RestEndpoint +
+                "/session/" + this.state.sessionId +
+                "/auth/init?callback=" + location.protocol + '//' + location.host;
 
         if (this.state.sessionId !== null) {
             return (
@@ -45,7 +48,7 @@ let LoginForm = React.createClass({
                                 <h1>Strava Sight</h1>
                                 <p>Visualize your Strava activities in a unique bubble chart.</p>
                                 <a className="text-center center-block" href={authInitRoute}>
-                                    <img className="connect-logo" src="images/connect.png"/>
+                                    <img className="connect-logo" src="assets/images/connect.png"/>
                                 </a>
                             </div>
                         </div>

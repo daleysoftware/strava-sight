@@ -1,7 +1,7 @@
 var keyMirror = require('keymirror');
 
 module.exports = {
-    RestEndpoint: 'http://localhost:4000/api/v1',
+    RestEndpoint: '/api/v1',
 
     ActionTypes: Object.freeze(keyMirror({
         // Sessions

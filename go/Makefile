@@ -8,4 +8,5 @@ update:
 	govendor update +external
 
 sync:
+	rm -rf vendor/*/
 	govendor sync

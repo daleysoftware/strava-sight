@@ -14,7 +14,7 @@ Technologies used:
 * MySQL
 * Golang
 
-## Running the application
+## Running the application in development
 
 ### Frontend
 
@@ -41,3 +41,7 @@ Install MySQL and run the following commands in the root console.
 
 Note that running this command will export default MySQL env variables for your
 convenience. In production, set these appropriately.
+
+## Running the application in prodction
+
+TODO

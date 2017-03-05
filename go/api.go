@@ -29,10 +29,12 @@ func ApiInit(db *gorm.DB, users chan User) {
 		ValidateHeaders: false,
 	}))
 
-	authenticator := strava.OAuthAuthenticator{
-		CallbackURL:            RestEndpoint + "/auth/response",
-		RequestClientGenerator: nil,
-	}
+	authenticator := strava.OAuthAuthenticator{}
+
+	router.GET("/", func(c *gin.Context) {
+		http.ServeFile(c.Writer, c.Request, "./assets/index.html")
+	})
+	router.Static("/assets", "assets")
 
 	v1 := router.Group("api").Group("v1")
 	{
@@ -99,10 +101,12 @@ func DeleteSession(db *gorm.DB, c *gin.Context) {
 
 func GetSessionAuthInit(c *gin.Context) {
 	sessionId := c.Param("session")
+	callback := c.Query("callback")
+
 	c.Redirect(http.StatusTemporaryRedirect,
 		"https://www.strava.com/api/v3/oauth/authorize?"+
 			"client_id="+strconv.Itoa(strava.ClientId)+
-			"&redirect_uri="+RestEndpoint+"/auth/response"+
+			"&redirect_uri="+callback+"/api/v1/auth/response"+
 			"&response_type=code"+
 			"&state="+sessionId+
 			"&scope=public"+
@@ -124,7 +128,7 @@ func oAuthSuccess(db *gorm.DB, c *gin.Context, auth *strava.AuthorizationRespons
 	db.Save(&FetchTask{UserId: user.Id, Fetching: true})
 	users <- user
 
-	c.Redirect(http.StatusTemporaryRedirect, WebEndpoint)
+	c.Redirect(http.StatusTemporaryRedirect, "/")
 }
 
 func oAuthFailure(c *gin.Context, err error) {
