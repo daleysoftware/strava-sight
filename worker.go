@@ -24,7 +24,7 @@ func fetchUserActivities(db *gorm.DB, user User) {
 
 	page := 1
 	for {
-		activities, err := service.ListActivities().Page(page).PerPage(100).Do()
+		activities, err := service.ListActivities().Page(page).PerPage(5).Do()
 		page++
 
 		if err != nil {

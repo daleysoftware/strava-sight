@@ -16,12 +16,6 @@ Technologies used:
 
 ## Running the application in development
 
-### Frontend
-
-    cd js && make install && make start
-
-### Backend
-
 ### Create and configure your MySQL database
 
 Install MySQL and run the following commands in the root console.
@@ -35,13 +29,20 @@ Install MySQL and run the following commands in the root console.
     export STRAVA_CLIENT_ID=<redacted>
     export STRAVA_CLIENT_SECRET=<redacted>
 
-#### Run Go code
+### Run application (golang)
 
-    cd go && make install && make start
+    make install && make start
 
-Note that running this command will export default MySQL env variables for your
-convenience. In production, set these appropriately.
+The application will be available at
+<a href="http://localhost:4000">http://localhost:4000</a>.
+
+### Watch JavaScript code (optional)
+
+If you are making changes to the JS frontend, you may optionally run the
+following to automatically update the bundle artifact.
+
+    cd js && make install && make start
 
 ## Running the application in production
 
-TODO
+This application is structured such that it can be easily deployed via Heroku.

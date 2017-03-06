@@ -1,6 +1,7 @@
 #!/bin/bash
 
-export DATABASE_URL=stravasight@/stravasight
+export DATABASE_URL="stravasight@tcp(localhost:3306)/stravasight"
+export PORT=4000
 
 go run *.go &
 run_pid=$!

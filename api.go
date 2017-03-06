@@ -4,6 +4,7 @@ import (
 	"crypto/rand"
 	"encoding/hex"
 	"encoding/json"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/itsjamie/gin-cors"
 	"github.com/jinzhu/gorm"
@@ -14,7 +15,7 @@ import (
 	"time"
 )
 
-func ApiInit(db *gorm.DB, users chan User) {
+func ApiInit(db *gorm.DB, users chan User, port int) {
 	// Initialize a new Gin router
 	router := gin.Default()
 
@@ -67,7 +68,7 @@ func ApiInit(db *gorm.DB, users chan User) {
 		})
 	}
 
-	router.Run(":4000")
+	router.Run(fmt.Sprintf(":%d", port))
 }
 
 func GetSession(db *gorm.DB, c *gin.Context) {

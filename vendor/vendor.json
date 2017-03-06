@@ -1,4 +1,8 @@
 {
+    "heroku": {
+        "install" : [ "./..." ],
+        "goVersion": "go1.7"
+     },
 	"comment": "",
 	"ignore": "test",
 	"package": [
@@ -99,5 +103,5 @@
 			"revisionTime": "2017-02-08T14:18:51Z"
 		}
 	],
-	"rootPath": "github.com/mpillar/strava-sight/go"
+	"rootPath": "github.com/mpillar/strava-sight"
 }
