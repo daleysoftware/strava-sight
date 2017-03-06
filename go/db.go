@@ -6,9 +6,9 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
-func DatabaseInit(user string, password string, host string, dbName string) (*gorm.DB, error) {
+func DatabaseInit(dbUrl string) (*gorm.DB, error) {
 	db, err := gorm.Open("mysql",
-		fmt.Sprintf("%s:%s@%s/%s?charset=utf8&parseTime=True&loc=Local", user, password, host, dbName))
+		fmt.Sprintf("%s?charset=utf8&parseTime=True&loc=Local", dbUrl))
 
 	if err != nil {
 		return nil, err

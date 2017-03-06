@@ -22,12 +22,14 @@ func main() {
 	strava.ClientSecret = clientSecret
 
 	// MySQL config.
-	mysqlUser := strings.TrimSpace(os.Getenv("MYSQL_USER"))
-	mysqlPassword := strings.TrimSpace(os.Getenv("MYSQL_PASSWORD"))
-	mysqlHost := strings.TrimSpace(os.Getenv("MYSQL_HOST"))
-	mysqlDbName := strings.TrimSpace(os.Getenv("MYSQL_DB_NAME"))
+	dbUrl := strings.TrimSpace(os.Getenv("DATABASE_URL"))
 
-	db, err := DatabaseInit(mysqlUser, mysqlPassword, mysqlHost, mysqlDbName)
+	if len(dbUrl) == 0 {
+		fmt.Println("Must export DATABASE_URL")
+		os.Exit(2)
+	}
+
+	db, err := DatabaseInit(dbUrl)
 	defer db.Close()
 	if err != nil {
 		panic(err.Error())
